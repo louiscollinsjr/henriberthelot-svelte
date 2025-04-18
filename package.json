@@ -35,22 +35,23 @@
 		"vite": "^6.2.5"
 	},
 	"dependencies": {
-		"@fontsource/literata": "^5.2.5",
-		"@fontsource/roboto": "^5.2.5",
 		"@fontsource/bebas-neue": "^5.1.1",
 		"@fontsource/lato": "^5.1.1",
+		"@fontsource/literata": "^5.2.5",
 		"@fontsource/luckiest-guy": "^5.1.1",
 		"@fontsource/montserrat": "^5.1.1",
 		"@fontsource/nunito-sans": "^5.1.1",
 		"@fontsource/open-sans": "^5.1.1",
 		"@fontsource/playfair-display": "^5.1.1",
+		"@fontsource/roboto": "^5.2.5",
 		"@fontsource/source-serif-pro": "^5.1.0",
 		"@fontsource/tiro-bangla": "^5.1.1",
 		"@sveltejs/adapter-auto": "^6.0.0",
+		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"autoprefixer": "^10.4.21",
+		"marked": "^15.0.8",
 		"mdsvex": "^0.12.3",
 		"postcss": "^8.5.3",
-		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"svelte": "^5.0.0",
 		"typescript": "^5.0.0"
 	}

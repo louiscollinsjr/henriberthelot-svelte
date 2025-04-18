@@ -65,7 +65,7 @@
     {#each props.books || [] as book}
       <a 
         href="/book/{book}" 
-        class="block capitalize hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-1 text-xs"
+        class="block capitalize rounded mb-1 text-xs"
       >
         {formatBookName(book)}
       </a>
