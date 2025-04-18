@@ -1,3 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/preflight";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Import fonts (these are fine) */
+@import '@fontsource/bebas-neue';
+@import '@fontsource/lato';
+@import '@fontsource/luckiest-guy';
+@import '@fontsource/montserrat';
+@import '@fontsource/open-sans';
+@import '@fontsource/playfair-display';
+@import '@fontsource/roboto';
+@import '@fontsource/source-serif-pro';
+@import '@fontsource/tiro-bangla';
+
+@import '@fontsource/roboto/400.css'; 
+@import '@fontsource/roboto/300.css'; 
+@import '@fontsource/roboto/700.css'; 
