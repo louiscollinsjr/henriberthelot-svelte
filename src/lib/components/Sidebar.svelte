@@ -38,7 +38,11 @@
    
       {#each chapters as slug}
         <a href="/chapter/{slug}" class="block py-1 text-black dark:text-white no-underline hover:text-gray-600 dark:hover:text-gray-300 {current === slug ? 'text-gray-600 dark:text-gray-300' : ''}">
-            {slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
+            {slug
+              .replace(/^\d+-/, '') // Remove leading numbers and dash
+              .replace(/-/g, ' ')
+              .replace(/\b\w/g, (c: string) => c.toUpperCase())
+            }
           </a>
       {/each}
   </nav>
