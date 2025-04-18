@@ -2,12 +2,24 @@
   import '@fontsource/roboto/400.css'; // Regular
   import '@fontsource/roboto/700.css'; // Bold
 
-  // Props: chapters (string[]), frontMatter (array of { slug, title })
-  export let chapters: string[] = [];
-  export let frontMatter: { slug: string, title: string }[] = [];
-  export let current: string = "";
-  export let darkMode: boolean = false;
-  export let toggleDarkMode: () => void = () => {};
+  // Destructure props (regular values only)
+  const { 
+    chapters = [], 
+    frontMatter = [], 
+    current: initialCurrent = "", 
+    darkMode: initialDarkMode = false, 
+    toggleDarkMode = () => {} 
+  } = $props<{
+    chapters?: string[],
+    frontMatter?: { slug: string, title: string }[],
+    current?: string,
+    darkMode?: boolean,
+    toggleDarkMode?: () => void
+  }>();
+
+  // Use $state() for reactivity, initialized from props
+  let current = $state(initialCurrent);
+  let darkMode = $state(initialDarkMode);
 </script>
 
 <aside class="sidebar h-screen w-56 flex flex-col justify-between p-3 pt-6 pr-6 select-none text-xs">
@@ -26,7 +38,7 @@
    
       {#each chapters as slug}
         <a href="/chapter/{slug}" class="block py-1 text-black dark:text-white no-underline hover:text-gray-600 dark:hover:text-gray-300 {current === slug ? 'text-gray-600 dark:text-gray-300' : ''}">
-            {slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+            {slug.replace(/-/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase())}
           </a>
       {/each}
   </nav>

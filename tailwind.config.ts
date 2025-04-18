@@ -6,6 +6,11 @@ import type { Config } from 'tailwindcss';
 export default {
 	content: ['./src/**/*.{html,js,svelte,ts,svx,md,mdx}'],
 
+	safelist: [
+		'text-xs',
+		'font-roboto'
+	],
+
 	theme: {
 		extend: {
 			fontFamily: {

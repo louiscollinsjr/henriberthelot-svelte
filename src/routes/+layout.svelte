@@ -63,8 +63,8 @@
 	console.log('[ROUTE DEBUG] Layout children:', children);
 </script>
 
-<div class="max-w-[980px] mx-auto text-sm">
-  <div class="flex min-h-screen bg-[var(--background)]">
+<div class="max-w-[980px] mx-auto text-xs">
+  <div class="flex min-h-screen">
     <Sidebar {current} {darkMode} {toggleDarkMode}
       chapters={$chaptersStore}
       frontMatter={$frontMatterStore}
