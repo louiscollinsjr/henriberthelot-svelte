@@ -34,20 +34,20 @@
 
 <!-- Only render if the client has loaded -->
 {#if typeof window !== 'undefined'}
-  <div class="min-h-screen font-roboto">
-    <!-- Only show sidebar on root route -->
+  <div class="min-h-screen grid grid-cols-5 grid-rows-[auto_1fr_auto] gap-4 max-w-[980px] w-5xl mx-auto font-roboto">
+    <div class="col-span-5"></div>
     {#if !$page.params.book}
-      <Sidebar 
-        books={props.data.books}
-        darkMode={darkMode}
-        toggleDarkMode={toggleDarkMode}
-      />
-      
-      <main class="ml-64 p-6">
-        <slot />
-      </main>
-    {:else}
-      <slot />
+      <aside class="row-start-2">
+        <Sidebar 
+          books={props.data.books}
+          darkMode={darkMode}
+          toggleDarkMode={toggleDarkMode}
+        />
+      </aside>
     {/if}
+    <main class="row-start-2 col-span-4">
+      <slot />
+    </main>
+    <div class="col-span-5"></div>
   </div>
 {/if}

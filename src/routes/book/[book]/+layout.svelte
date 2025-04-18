@@ -53,16 +53,17 @@
 </script>
 
 <!-- Book specific layout -->
-<div class="min-h-screen">
-  <!-- Sidebar receives book content directly -->
-  <Sidebar 
-    books={props.data.books}
-    frontMatter={props.data.frontMatter}
-    chapters={props.data.chapters}
-  />
-  
-  <!-- Main content area -->
-  <main class="ml-64 p-6">
+<div class="grid grid-cols-5 gap-x-2 gap-y-4 max-w-[980px] w-5xl mx-auto">
+  <div class="col-span-2"></div>
+  <aside class="row-start-2">
+    <Sidebar 
+      books={props.data.books}
+      frontMatter={props.data.frontMatter}
+      chapters={props.data.chapters}
+    />
+  </aside>
+  <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50">
     <slot />
   </main>
+  <div class="col-span-2 row-start-3"></div>
 </div>

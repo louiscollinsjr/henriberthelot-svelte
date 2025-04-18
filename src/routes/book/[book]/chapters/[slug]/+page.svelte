@@ -26,7 +26,7 @@
 <!-- <pre>{JSON.stringify(props, null, 2)}</pre> -->
 
 <!-- Show the chapter content with proper styling -->
-<div class="prose prose-lg dark:prose-invert max-w-none p-4 text-sm text-gray-800">
+<div class="prose prose-lg dark:prose-invert max-w-none p-4">
   <h1 class="text-2xl font-bold mb-6">{formatTitle(props.data?.slug)}</h1>
   
   {#if renderedContent}

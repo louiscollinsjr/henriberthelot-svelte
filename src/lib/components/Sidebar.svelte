@@ -41,7 +41,7 @@
   }
 </script>
 
-<aside class="w-64 h-screen dark:bg-gray-800 p-4 px-6 overflow-y-auto fixed left-0 top-0">
+<aside class="w-full h-fit dark:bg-gray-800 py-8 px-4 flex flex-col items-start bg-zinc-50 rounded-lg">
   <!-- Back button at top when viewing a book -->
   {#if $page.params.book}
     <button 
@@ -54,7 +54,7 @@
   
   <!-- Title area -->
   <div class="flex justify-between items-center mb-6">
-    <h2 class="text-xl font-bold capitalize w-40">
+    <h2 class="text-lg font-bold capitalize w-40">
       {$page.params.book ? formatBookName($page.params.book) : 'Books'}
     </h2>
   </div>

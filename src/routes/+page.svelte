@@ -7,7 +7,7 @@
 <!-- Main content area shows a welcome message until a book is selected. -->
 
 <div class="max-w-[980px] mx-auto font-roboto">
-  <h1 class="text-4xl font-bold mb-8">Welcome to the Book Reader</h1>
+  <!-- <h1 class="text-4xl font-bold mb-8">Welcome to the Book Reader</h1>
   
   <div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg shadow-sm">
     <p class="text-lg text-gray-700 dark:text-gray-300 mb-4">
@@ -17,5 +17,5 @@
     <p class="text-gray-600 dark:text-gray-400">
       This application contains {props.data?.books?.length || 0} books available for reading.
     </p>
-  </div>
+  </div> -->
 </div>
