@@ -1,23 +1,21 @@
 import { readdirSync } from 'fs';
 import { join } from 'path';
-import type { PageServerLoad } from './$types';
+import type { LayoutServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
-  // List all books in /src/routes/book (ignore .DS_Store and [book] dynamic folder)
+export const load: LayoutServerLoad = async () => {
   const booksDir = 'src/routes/book';
   let books: string[] = [];
   try {
     books = readdirSync(booksDir)
       .filter((name) => !name.startsWith('.') && name !== '[book]')
       .filter((name) => {
-        // Only include directories
         try {
           return readdirSync(join(booksDir, name));
         } catch {
           return false;
         }
       });
-  } catch (e) {
+  } catch {
     // No books found
   }
   return { books };
