@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
   
   const props = $props<{
     books?: string[]
@@ -19,7 +20,8 @@
   });
 
   function goBack() {
-    window.history.back();
+    // Navigate directly to root instead of using browser history
+    window.location.href = '/';
   }
 
   const formatBookName = (name: string) => {
@@ -63,7 +65,7 @@
     {#each props.books || [] as book}
       <a 
         href="/book/{book}" 
-        class="block p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-2"
+        class="block capitalize hover:bg-gray-200 dark:hover:bg-gray-700 rounded mb-1 text-xs"
       >
         {formatBookName(book)}
       </a>
