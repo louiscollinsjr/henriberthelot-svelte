@@ -1,4 +1,4 @@
-import { readdirSync, existsSync } from 'fs';
+import { readdirSync, existsSync, readFileSync } from 'fs';
 import { join } from 'path';
 
 export const load = async ({ params, fetch }) => {
@@ -7,18 +7,28 @@ export const load = async ({ params, fetch }) => {
   
   console.log(`Loading book: ${book}`);
   
-  // Get front matter
+  // Get front matter WITH CONTENT
   let frontMatter = [];
   try {
     const frontMatterDir = join(baseDir, 'frontmatter');
     if (existsSync(frontMatterDir)) {
       frontMatter = readdirSync(frontMatterDir)
         .filter(file => file.endsWith('.mdx'))
-        .map(file => ({
-          title: file.replace('.mdx', '').replace(/-/g, ' '),
-          slug: file.replace('.mdx', '')
-        }));
-      console.log(`Found ${frontMatter.length} frontmatter items:`, frontMatter);
+        .map(file => {
+          const filePath = join(frontMatterDir, file);
+          let content = '';
+          try {
+            content = readFileSync(filePath, 'utf-8');
+          } catch (err) {
+            console.error('Error reading frontmatter file', filePath, err);
+          }
+          return {
+            title: file.replace('.mdx', '').replace(/-/g, ' '),
+            slug: file.replace('.mdx', ''),
+            content
+          };
+        });
+      console.log(`Loaded ${frontMatter.length} frontmatter items with content.`);
     } else {
       console.log('Front matter directory does not exist');
     }
@@ -26,18 +36,28 @@ export const load = async ({ params, fetch }) => {
     console.error('Error loading frontmatter:', err);
   }
   
-  // Get chapters
+  // Get chapters WITH CONTENT
   let chapters = [];
   try {
     const chaptersDir = join(baseDir, 'chapters');
     if (existsSync(chaptersDir)) {
       chapters = readdirSync(chaptersDir)
         .filter(file => file.endsWith('.mdx'))
-        .map(file => ({
-          title: file.replace('.mdx', '').replace(/-/g, ' '),
-          slug: file.replace('.mdx', '')
-        }));
-      console.log(`Found ${chapters.length} chapters:`, chapters);
+        .map(file => {
+          const filePath = join(chaptersDir, file);
+          let content = '';
+          try {
+            content = readFileSync(filePath, 'utf-8');
+          } catch (err) {
+            console.error('Error reading chapter file', filePath, err);
+          }
+          return {
+            title: file.replace('.mdx', '').replace(/-/g, ' '),
+            slug: file.replace('.mdx', ''),
+            content
+          };
+        });
+      console.log(`Loaded ${chapters.length} chapters with content.`);
     } else {
       console.log('Chapters directory does not exist');
     }

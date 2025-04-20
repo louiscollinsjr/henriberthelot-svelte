@@ -3,13 +3,14 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import { goto } from '$app/navigation';
+  import { marked } from 'marked';
   
   const props = $props<{
     data: {
       book: string
       books: string[]
-      frontMatter: {title: string, slug: string}[]
-      chapters: {title: string, slug: string}[]
+      frontMatter: {title: string, slug: string, content: string}[]
+      chapters: {title: string, slug: string, content: string}[]
     }
   }>();
   
@@ -50,6 +51,52 @@
       }
     }
   });
+  
+  // Format the display title (remove numbering)
+  const formatTitle = (slug: string) => {
+    return slug ? slug.replace(/^\d+[-\s]*/g, '').replace(/-/g, ' ') : '';
+  };
+  
+  // Track the active section for highlighting in sidebar
+  let activeSection = $state('');
+  
+  // Intersection observer for active section
+  onMount(() => {
+    setTimeout(() => {
+      const sectionElements = document.querySelectorAll('.book-section');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            activeSection = entry.target.id;
+            // Update URL hash for bookmarking
+            const newUrl = new URL(window.location.href);
+            newUrl.hash = entry.target.id;
+            history.replaceState(null, '', newUrl.toString());
+          }
+        });
+      }, { threshold: 0.3 });
+      sectionElements.forEach(section => {
+        observer.observe(section);
+      });
+    }, 500);
+  });
+
+  // Scroll to section when hash changes
+  const scrollToSection = (sectionId) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      activeSection = sectionId;
+    }
+  };
+  
+  // Handle URL hash on load
+  $effect(() => {
+    if ($page.url.hash) {
+      const sectionId = $page.url.hash.substring(1);
+      scrollToSection(sectionId);
+    }
+  });
 </script>
 
 <!-- Book specific layout -->
@@ -62,8 +109,48 @@
       chapters={props.data.chapters}
     />
   </aside>
-  <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50">
-    <slot />
+  <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50 prose prose-lg dark:prose-invert max-w-none">
+    <!-- Front Matter Sections -->
+    {#if props.data.frontMatter && props.data.frontMatter.length > 0}
+      {#each props.data.frontMatter as item, i}
+        <section
+          id="frontmatter-{item.slug}"
+          class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80"
+        >
+          <h1 class="text-3xl font-bold mb-8 text-center">{formatTitle(item.slug)}</h1>
+          {#if item.content}
+            {@html marked.parse(item.content)}
+          {:else}
+            <p>Loading content...</p>
+          {/if}
+        </section>
+      {/each}
+    {/if}
+    
+    <!-- Chapter Sections -->
+    {#if props.data.chapters && props.data.chapters.length > 0}
+      {#each props.data.chapters as chapter, i}
+        <section
+          id="chapter-{chapter.slug}"
+          class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center"
+        >
+          <h1 class="text-2xl font-bold mb-6 text-center">{formatTitle(chapter.slug)}</h1>
+          {#if chapter.content}
+            {@html marked.parse(chapter.content)}
+          {:else}
+            <p>Loading content...</p>
+          {/if}
+        </section>
+      {/each}
+    {/if}
+    
+    <!-- If no content is loaded yet -->
+    {#if (!props.data.frontMatter || props.data.frontMatter.length === 0) && 
+          (!props.data.chapters || props.data.chapters.length === 0)}
+      <div class="text-center py-12">
+        <p>Loading book content...</p>
+      </div>
+    {/if}
   </main>
   <div class="col-span-2 row-start-3"></div>
 </div>
