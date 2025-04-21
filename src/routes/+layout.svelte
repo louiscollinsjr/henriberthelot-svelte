@@ -34,7 +34,8 @@
 
 <!-- Only render if the client has loaded -->
 {#if typeof window !== 'undefined'}
-  <div class="min-h-screen grid grid-cols-5 grid-rows-[auto_1fr_auto] gap-4 max-w-[980px] w-5xl mx-auto font-roboto">
+  <div class="fixed inset-0 w-screen h-screen bg-gray-50 -z-10"></div>
+  <div class="min-h-screen grid grid-cols-5 grid-rows-[auto_1fr_auto] gap-4 max-w-[980px] w-5xl mx-auto font-roboto relative">
     <div class="col-span-5"></div>
     {#if !$page.params.book}
       <aside class="row-start-2">

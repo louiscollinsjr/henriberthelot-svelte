@@ -5,10 +5,12 @@
       "name": "henriberthelot-svelte",
       "dependencies": {
         "@fontsource/bebas-neue": "^5.1.1",
+        "@fontsource/estonia": "^5.2.5",
         "@fontsource/lato": "^5.1.1",
         "@fontsource/literata": "^5.2.5",
         "@fontsource/luckiest-guy": "^5.1.1",
         "@fontsource/montserrat": "^5.1.1",
+        "@fontsource/mr-bedfort": "^5.2.5",
         "@fontsource/nunito-sans": "^5.1.1",
         "@fontsource/open-sans": "^5.1.1",
         "@fontsource/playfair-display": "^5.1.1",
@@ -124,6 +126,8 @@
 
     "@fontsource/bebas-neue": ["@fontsource/bebas-neue@5.2.5", "", {}, "sha512-9hZCl9BpuwrIPRgprS17WRHMRyqprFKxNEDOl98en9XzikR8GGXpeiLaKf5HpNm1NKnVo/EowTjcgcgrvW3h0w=="],
 
+    "@fontsource/estonia": ["@fontsource/estonia@5.2.5", "", {}, "sha512-RSyIZUtYs4fUOENE6BRj2Qv9xUAS+YJKGWa8ts/3+umKz7WSxS3Q+zmkd5DHksTvUbTkJx5xsw5QY35OM4t0RQ=="],
+
     "@fontsource/lato": ["@fontsource/lato@5.2.5", "", {}, "sha512-d8aogKOul7a3eYG3UzTG8PB6A0D+6tlkFQCACmKQ7qTwB3XS6QmkSW1L0vYbVE9CfCRq/Zpb5sG3gNA6yJea/A=="],
 
     "@fontsource/literata": ["@fontsource/literata@5.2.5", "", {}, "sha512-0DTeiWPxrzwclWZzz96prUpryc8n6A3lLhDZZJAQIOFrbwANBLQrYHWiMnLLijmTenymtU6QCsmwBM62munLUQ=="],
@@ -131,6 +135,8 @@
     "@fontsource/luckiest-guy": ["@fontsource/luckiest-guy@5.2.5", "", {}, "sha512-JsFuZjAv+gNPaTskVIATYpHQULzHYxqNb2sxHlEJ2zOGkkdXfYNMteUi6NTIGy+3eggxm3k0/q6scbc6lc/pZw=="],
 
     "@fontsource/montserrat": ["@fontsource/montserrat@5.2.5", "", {}, "sha512-/OA+bdg1yqUArDUnEeCqDwgTDiIpvED56TxYskje8UKpsvjl/0A9eNod7IcdHz6/Osi70vo7briRO3la8/u+5Q=="],
+
+    "@fontsource/mr-bedfort": ["@fontsource/mr-bedfort@5.2.5", "", {}, "sha512-BAsEpfh6E5FfZYgCrtgohJaIrhuXZI+scF+AhxpdJrG2zPW/epPEXCXuy/7tH8qd8G07tdsdTywOEvsFl2UGyg=="],
 
     "@fontsource/nunito-sans": ["@fontsource/nunito-sans@5.2.5", "", {}, "sha512-QE2I4PmR9CHoAXxfpz4L+o35X4jg64i+5/J8Aa0G24mY9xs2VPr0a4igDcZkjIMhGfFfPAvcaR+hf/NpXVhZuw=="],
 

@@ -1,4 +1,6 @@
 <script lang="ts">
+  import '@fontsource/estonia';
+  import '@fontsource/mr-bedfort';
   import Sidebar from '$lib/components/Sidebar.svelte';
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
@@ -102,24 +104,27 @@
 <!-- Book specific layout -->
 <div class="grid grid-cols-5 gap-x-2 gap-y-4 max-w-[980px] w-5xl mx-auto">
   <div class="col-span-2"></div>
-  <aside class="row-start-2">
+  <aside class="row-start-2 sticky top-8 self-start h-fit z-10">
     <Sidebar 
       books={props.data.books}
       frontMatter={props.data.frontMatter}
       chapters={props.data.chapters}
+      activeSection={activeSection}
     />
   </aside>
-  <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50 prose prose-lg dark:prose-invert max-w-none">
+  <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50 prose prose-lg dark:prose-invert max-w-none overflow-y-auto" style="max-height:90vh;">
     <!-- Front Matter Sections -->
     {#if props.data.frontMatter && props.data.frontMatter.length > 0}
       {#each props.data.frontMatter as item, i}
         <section
           id="frontmatter-{item.slug}"
-          class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80"
+          class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80" style="font-family: Georgia, 'Times New Roman', Times, serif;"
         >
-          <h1 class="text-3xl font-bold mb-8 text-center">{formatTitle(item.slug)}</h1>
+          <!-- <h1 class="text-3xl font-bold mb-8 text-center">{formatTitle(item.slug)}</h1> -->
           {#if item.content}
-            {@html marked.parse(item.content)}
+            <div class="prose prose-lg prose-p:mb-6 prose-p:mt-0 dark:prose-invert" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+              {@html marked.parse(item.content)}
+            </div>
           {:else}
             <p>Loading content...</p>
           {/if}
@@ -132,11 +137,12 @@
       {#each props.data.chapters as chapter, i}
         <section
           id="chapter-{chapter.slug}"
-          class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center"
+          class="book-section mb-16 py-20 px-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80" style="font-family: Georgia, 'Times New Roman', Times, serif;"
         >
-          <h1 class="text-2xl font-bold mb-6 text-center">{formatTitle(chapter.slug)}</h1>
           {#if chapter.content}
-            {@html marked.parse(chapter.content)}
+            <div class="prose prose-lg prose-p:mb-6 prose-p:mt-0 dark:prose-invert" style="font-family: Georgia, 'Times New Roman', Times, serif;">
+              {@html marked.parse(chapter.content)}
+            </div>
           {:else}
             <p>Loading content...</p>
           {/if}

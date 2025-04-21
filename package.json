@@ -36,10 +36,12 @@
 	},
 	"dependencies": {
 		"@fontsource/bebas-neue": "^5.1.1",
+		"@fontsource/estonia": "^5.2.5",
 		"@fontsource/lato": "^5.1.1",
 		"@fontsource/literata": "^5.2.5",
 		"@fontsource/luckiest-guy": "^5.1.1",
 		"@fontsource/montserrat": "^5.1.1",
+		"@fontsource/mr-bedfort": "^5.2.5",
 		"@fontsource/nunito-sans": "^5.1.1",
 		"@fontsource/open-sans": "^5.1.1",
 		"@fontsource/playfair-display": "^5.1.1",

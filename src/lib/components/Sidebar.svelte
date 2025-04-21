@@ -8,6 +8,7 @@
     chapters?: {title: string, slug: string}[]
     darkMode?: boolean
     toggleDarkMode?: () => void
+    activeSection?: string
   }>();
 
   $effect(() => {
@@ -78,8 +79,11 @@
         <h3 class="font-bold text-[11px] text-gray-500 dark:text-gray-900 pb-1">Front Matter</h3>
         {#each props.frontMatter as item}
           <a 
-            href="/book/{$page.params.book}/frontmatter/{item.slug}" 
-            class="block capitalize text-gray-700 dark:text-gray-100 rounded mb-1"
+            href="#frontmatter-{item.slug}"
+            class="block capitalize rounded mb-1 px-2 py-1 transition-colors
+              {props.activeSection === `frontmatter-${item.slug}` 
+                ? 'bg-blue-200 text-blue-900 font-bold dark:bg-blue-700 dark:text-white' 
+                : 'text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700'}"
           >
             {formatFrontMatterTitle(item.title)}
           </a>
@@ -95,8 +99,11 @@
         <h3 class="font-bold text-[11px] text-gray-500 dark:text-gray-900 pb-1">Chapters</h3>
         {#each props.chapters as chapter}
           <a 
-            href="/book/{$page.params.book}/chapters/{chapter.slug}" 
-            class="block capitalize text-gray-700 dark:text-gray-100 rounded mb-1"
+            href="#chapter-{chapter.slug}"
+            class="block capitalize rounded mb-1 px-2 py-1 transition-colors
+              {props.activeSection === `chapter-${chapter.slug}` 
+                ? 'bg-blue-200 text-blue-900 font-bold dark:bg-blue-700 dark:text-white' 
+                : 'text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700'}"
           >
             {formatChapterTitle(chapter.title)}
           </a>

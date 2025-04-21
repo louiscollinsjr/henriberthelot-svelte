@@ -16,3 +16,8 @@
 @import '@fontsource/playfair-display';
 @import '@fontsource/source-serif-pro';
 @import '@fontsource/tiro-bangla';
+
+/* Site-wide background color */
+body {
+  background-color: #f8f6f3;
+}
