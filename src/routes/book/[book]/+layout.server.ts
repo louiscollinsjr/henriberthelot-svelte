@@ -1,79 +1,46 @@
-import { readdirSync, existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import type { LayoutServerLoad } from './$types';
 
-export const load = async ({ params, fetch }) => {
+export const load: LayoutServerLoad = async ({ params }) => {
   const book = params.book;
-  const baseDir = `src/routes/book/${book}`;
-  
-  console.log(`Loading book: ${book}`);
-  
-  // Get front matter WITH CONTENT
-  let frontMatter = [];
-  try {
-    const frontMatterDir = join(baseDir, 'frontmatter');
-    if (existsSync(frontMatterDir)) {
-      frontMatter = readdirSync(frontMatterDir)
-        .filter(file => file.endsWith('.mdx'))
-        .map(file => {
-          const filePath = join(frontMatterDir, file);
-          let content = '';
-          try {
-            content = readFileSync(filePath, 'utf-8');
-          } catch (err) {
-            console.error('Error reading frontmatter file', filePath, err);
-          }
-          return {
-            title: file.replace('.mdx', '').replace(/-/g, ' '),
-            slug: file.replace('.mdx', ''),
-            content
-          };
-        });
-      console.log(`Loaded ${frontMatter.length} frontmatter items with content.`);
-    } else {
-      console.log('Front matter directory does not exist');
-    }
-  } catch (err) {
-    console.error('Error loading frontmatter:', err);
-  }
-  
-  // Get chapters WITH CONTENT
-  let chapters = [];
-  try {
-    const chaptersDir = join(baseDir, 'chapters');
-    if (existsSync(chaptersDir)) {
-      chapters = readdirSync(chaptersDir)
-        .filter(file => file.endsWith('.mdx'))
-        .map(file => {
-          const filePath = join(chaptersDir, file);
-          let content = '';
-          try {
-            content = readFileSync(filePath, 'utf-8');
-          } catch (err) {
-            console.error('Error reading chapter file', filePath, err);
-          }
-          return {
-            title: file.replace('.mdx', '').replace(/-/g, ' '),
-            slug: file.replace('.mdx', ''),
-            content
-          };
-        });
-      console.log(`Loaded ${chapters.length} chapters with content.`);
-    } else {
-      console.log('Chapters directory does not exist');
-    }
-  } catch (err) {
-    console.error('Error loading chapters:', err);
-  }
+  // Use Vite's import.meta.glob to get all chapters and frontmatter, then filter by book
+  const allChapterFiles = import.meta.glob('/src/routes/book/*/chapters/*.mdx', { query: '?raw', import: 'default' });
+  const allFrontmatterFiles = import.meta.glob('/src/routes/book/*/frontmatter/*.mdx', { query: '?raw', import: 'default' });
 
-  // Load books list from main layout
-  const { books = [] } = await fetch('/')
-    .then(r => r.json())
-    .catch(() => ({ books: [] }));
+  // Load chapters for this book
+  const chapters = await Promise.all(
+    Object.entries(allChapterFiles)
+      .filter(([path]) => path.includes(`/book/${book}/chapters/`))
+      .map(async ([path, importFn]) => {
+        const content = await importFn();
+        const slug = path.split('/').pop().replace('.mdx', '');
+        return {
+          title: slug.replace(/-/g, ' '),
+          slug,
+          content
+        };
+      })
+  );
 
-  return {
-    book,
-    frontMatter,
-    chapters,
-    books
-  };
+  // Load frontmatter for this book
+  const frontMatter = await Promise.all(
+    Object.entries(allFrontmatterFiles)
+      .filter(([path]) => path.includes(`/book/${book}/frontmatter/`))
+      .map(async ([path, importFn]) => {
+        const content = await importFn();
+        const slug = path.split('/').pop().replace('.mdx', '');
+        return {
+          title: slug.replace(/-/g, ' '),
+          slug,
+          content
+        };
+      })
+  );
+
+  // Use Vite's import.meta.glob to get all book directories for sidebar
+  const bookDirs = import.meta.glob('/src/routes/book/*/', { query: '?raw', import: 'default' });
+  const books = Object.keys(bookDirs)
+    .map(path => path.split('/').slice(-2, -1)[0])
+    .filter(name => name !== '[book]');
+
+  return { book, frontMatter, chapters, books };
 };
