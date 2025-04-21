@@ -4,13 +4,13 @@ export const load: LayoutServerLoad = async ({ params }) => {
   const book = params.book;
   console.log('[DEBUG] Book param:', book);
   // Use Vite's import.meta.glob to get all chapters and frontmatter, then filter by book
-  const allChapterFiles = import.meta.glob('/src/routes/book/*/chapters/*.mdx', { query: '?raw', import: 'default' });
-  const allFrontmatterFiles = import.meta.glob('/src/routes/book/*/frontmatter/*.mdx', { query: '?raw', import: 'default' });
+  const allChapterFiles = import.meta.glob('/src/content/books/*/chapters/*.mdx', { query: '?raw', import: 'default' });
+  const allFrontmatterFiles = import.meta.glob('/src/content/books/*/frontmatter/*.mdx', { query: '?raw', import: 'default' });
   console.log('[DEBUG] Total chapter files found:', Object.keys(allChapterFiles).length);
   console.log('[DEBUG] Total frontmatter files found:', Object.keys(allFrontmatterFiles).length);
 
   // Load chapters for this book
-  const filteredChapterEntries = Object.entries(allChapterFiles).filter(([path]) => path.includes(`/book/${book}/chapters/`));
+  const filteredChapterEntries = Object.entries(allChapterFiles).filter(([path]) => path.includes(`/books/${book}/chapters/`));
   console.log('[DEBUG] Filtered chapter files for book:', filteredChapterEntries.map(([path]) => path));
   const chapters = await Promise.all(
     filteredChapterEntries.map(async ([path, importFn]) => {
@@ -25,7 +25,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
   );
 
   // Load frontmatter for this book
-  const filteredFrontmatterEntries = Object.entries(allFrontmatterFiles).filter(([path]) => path.includes(`/book/${book}/frontmatter/`));
+  const filteredFrontmatterEntries = Object.entries(allFrontmatterFiles).filter(([path]) => path.includes(`/books/${book}/frontmatter/`));
   console.log('[DEBUG] Filtered frontmatter files for book:', filteredFrontmatterEntries.map(([path]) => path));
   const frontMatter = await Promise.all(
     filteredFrontmatterEntries.map(async ([path, importFn]) => {
@@ -40,7 +40,7 @@ export const load: LayoutServerLoad = async ({ params }) => {
   );
 
   // Use Vite's import.meta.glob to get all book directories for sidebar
-  const bookDirs = import.meta.glob('/src/routes/book/*/', { query: '?raw', import: 'default' });
+  const bookDirs = import.meta.glob('/src/content/books/*/', { query: '?raw', import: 'default' });
   const books = Object.keys(bookDirs)
     .map(path => path.split('/').slice(-2, -1)[0])
     .filter(name => name !== '[book]');
