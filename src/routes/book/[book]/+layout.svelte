@@ -7,25 +7,26 @@
   import { goto } from '$app/navigation';
   import { marked } from 'marked';
   
-  const props = $props<{
+  const { data, children } = $props<{
     data: {
       book: string
       books: string[]
       frontMatter: {title: string, slug: string, content: string}[]
       chapters: {title: string, slug: string, content: string}[]
-    }
+    },
+    children: any
   }>();
   
   // Redirect to first front matter item when directly accessing /book/[book]
   onMount(() => {
     // Console log for debugging
-    console.log('Book layout mounted for book:', props.data.book);
+    console.log('Book layout mounted for book:', data.book);
     console.log('Current pathname:', $page.url.pathname);
-    console.log('Front matter items:', props.data.frontMatter);
-    console.log('Chapters:', props.data.chapters);
+    console.log('Front matter items:', data.frontMatter);
+    console.log('Chapters:', data.chapters);
     
     // Check if we're at the exact book path without subpath
-    const exactBookPath = `/book/${props.data.book}`;
+    const exactBookPath = `/book/${data.book}`;
     const isExactBookPath = $page.url.pathname === exactBookPath || 
                           $page.url.pathname === `${exactBookPath}/`;
     
@@ -33,21 +34,21 @@
     
     if (isExactBookPath) {
       // If front matter exists, redirect to the first item
-      if (props.data.frontMatter && props.data.frontMatter.length > 0) {
-        const firstItem = props.data.frontMatter[0];
+      if (data.frontMatter && data.frontMatter.length > 0) {
+        const firstItem = data.frontMatter[0];
         console.log('Redirecting to front matter:', firstItem);
         
         // Use SvelteKit's goto instead of window.location for smoother navigation
-        const targetUrl = `/book/${props.data.book}/frontmatter/${firstItem.slug}`;
+        const targetUrl = `/book/${data.book}/frontmatter/${firstItem.slug}`;
         console.log('Redirecting to:', targetUrl);
         goto(targetUrl);
       } 
       // If no front matter but chapters exist, redirect to first chapter
-      else if (props.data.chapters && props.data.chapters.length > 0) {
-        const firstChapter = props.data.chapters[0];
+      else if (data.chapters && data.chapters.length > 0) {
+        const firstChapter = data.chapters[0];
         console.log('Redirecting to chapter:', firstChapter);
         
-        const targetUrl = `/book/${props.data.book}/chapters/${firstChapter.slug}`;
+        const targetUrl = `/book/${data.book}/chapters/${firstChapter.slug}`;
         console.log('Redirecting to:', targetUrl);
         goto(targetUrl);
       }
@@ -84,7 +85,7 @@
   });
 
   // Scroll to section when hash changes
-  const scrollToSection = (sectionId) => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -106,21 +107,21 @@
   <div class="col-span-2"></div>
   <aside class="row-start-2 sticky top-8 self-start h-fit z-10">
     <Sidebar 
-      books={props.data.books}
-      frontMatter={props.data.frontMatter}
-      chapters={props.data.chapters}
+      books={data.books}
+      frontMatter={data.frontMatter}
+      chapters={data.chapters}
       activeSection={activeSection}
     />
   </aside>
   <main class="row-start-2 col-span-4 p-4 pt-12 rounded-lg bg-gray-50/50 prose prose-lg dark:prose-invert max-w-none overflow-y-auto" style="max-height:90vh;">
+   
     <!-- Front Matter Sections -->
-    {#if props.data.frontMatter && props.data.frontMatter.length > 0}
-      {#each props.data.frontMatter as item, i}
+    {#if data.frontMatter && data.frontMatter.length > 0}
+      {#each data.frontMatter as item, i}
         <section
           id="frontmatter-{item.slug}"
           class="book-section mb-16 py-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80" style="font-family: Georgia, 'Times New Roman', Times, serif;"
         >
-          <!-- <h1 class="text-3xl font-bold mb-8 text-center">{formatTitle(item.slug)}</h1> -->
           {#if item.content}
             <div class="prose prose-lg prose-p:mb-6 prose-p:mt-0 dark:prose-invert" style="font-family: Georgia, 'Times New Roman', Times, serif;">
               {@html marked.parse(item.content)}
@@ -133,8 +134,8 @@
     {/if}
     
     <!-- Chapter Sections -->
-    {#if props.data.chapters && props.data.chapters.length > 0}
-      {#each props.data.chapters as chapter, i}
+    {#if data.chapters && data.chapters.length > 0}
+      {#each data.chapters as chapter, i}
         <section
           id="chapter-{chapter.slug}"
           class="book-section mb-16 py-20 px-20 min-h-[80vh] flex flex-col justify-center items-center bg-white/80" style="font-family: Georgia, 'Times New Roman', Times, serif;"
@@ -151,12 +152,15 @@
     {/if}
     
     <!-- If no content is loaded yet -->
-    {#if (!props.data.frontMatter || props.data.frontMatter.length === 0) && 
-          (!props.data.chapters || props.data.chapters.length === 0)}
+    {#if (!data.frontMatter || data.frontMatter.length === 0) && 
+          (!data.chapters || data.chapters.length === 0)}
       <div class="text-center py-12">
         <p>Loading book content...</p>
       </div>
     {/if}
+
+    <!-- No {@render children()} here! -->
+  
   </main>
   <div class="col-span-2 row-start-3"></div>
 </div>

@@ -40,13 +40,15 @@
     // Remove numbering like "01 - ", "1. ", etc.
     return title.replace(/^(\d+[\s\-\.]+)/i, '').trim();
   }
+
+  const basePath = `/book/${$page.params.book}/contents`;
 </script>
 
 <aside class="w-full h-fit dark:bg-gray-800 py-8 px-4 flex flex-col items-start bg-zinc-50 rounded-lg">
   <!-- Back button at top when viewing a book -->
   {#if $page.params.book}
     <button 
-      on:click={goBack}
+      onclick={goBack}
       class="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 mb-4"
     >
       ← Back to books

@@ -8,7 +8,7 @@ export async function load({ params }) {
     console.log(`Server loading frontmatter content for book: ${book}, slug: ${slug}`);
     
     // Construct the path to the frontmatter file
-    const baseDir = `src/routes/book/${book}/frontmatter`;
+    const baseDir = `src/content/books/${book}/frontmatter`;
     const mdxFileName = `${slug}.mdx`;
     const txtFileName = `${slug}.mdx.txt`; 
     

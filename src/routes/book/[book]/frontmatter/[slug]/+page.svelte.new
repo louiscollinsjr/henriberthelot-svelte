@@ -1,0 +1,6 @@
+<script lang="ts">
+  // This component is intentionally empty
+  // Content is rendered by the layout component to allow scrolling between sections
+</script>
+
+<!-- Empty component - content is rendered by the layout -->

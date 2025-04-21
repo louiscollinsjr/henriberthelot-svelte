@@ -8,7 +8,7 @@ export async function load({ params }) {
     console.log(`Server loading chapter content for book: ${book}, slug: ${slug}`);
     
     // Construct the path to the chapter file
-    const baseDir = `src/routes/book/${book}/chapters`;
+    const baseDir = `src/content/books/${book}/chapters`;
     const mdxFileName = `${slug}.mdx`; 
     const txtFileName = `${slug}.mdx.txt`; 
     

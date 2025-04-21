@@ -9,10 +9,12 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   
-  const props = $props<{
+  // Use a single $props() call for both data and children
+  const { data, children } = $props<{
     data: { 
       books: string[]
-    }
+    },
+    children: any
   }>();
   
   // Dark mode state
@@ -40,14 +42,16 @@
     {#if !$page.params.book}
       <aside class="row-start-2">
         <Sidebar 
-          books={props.data.books}
+          books={data.books}
           darkMode={darkMode}
           toggleDarkMode={toggleDarkMode}
         />
       </aside>
     {/if}
     <main class="row-start-2 col-span-4">
-      <slot />
+      
+      {@render children()}
+      
     </main>
     <div class="col-span-5"></div>
   </div>
