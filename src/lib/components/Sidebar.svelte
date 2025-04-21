@@ -78,13 +78,13 @@
     <!-- Front Matter Section -->
     {#if props.frontMatter && props.frontMatter.length > 0}
       <div class="mb-6 text-xs font-roboto">
-        <h3 class="font-bold text-[11px] text-gray-500 dark:text-gray-900 pb-1">Front Matter</h3>
+        <h3 class="font-bold text-[11px] text-gray-500 dark:text-gray-900 pb-1">Front matter</h3>
         {#each props.frontMatter as item}
           <a 
             href="#frontmatter-{item.slug}"
             class="block capitalize rounded mb-1 px-2 py-1 transition-colors
               {props.activeSection === `frontmatter-${item.slug}` 
-                ? 'bg-blue-200 text-blue-900 font-bold dark:bg-blue-700 dark:text-white' 
+                ? 'bg-blue-200 text-blue-900 dark:bg-blue-700 dark:text-white' 
                 : 'text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700'}"
           >
             {formatFrontMatterTitle(item.title)}
@@ -102,9 +102,9 @@
         {#each props.chapters as chapter}
           <a 
             href="#chapter-{chapter.slug}"
-            class="block capitalize rounded mb-1 px-2 py-1 transition-colors
+            class="block italic rounded mb-1 px-2 py-1 transition-colors
               {props.activeSection === `chapter-${chapter.slug}` 
-                ? 'bg-blue-200 text-blue-900 font-bold dark:bg-blue-700 dark:text-white' 
+                ? 'bg-blue-200 text-blue-900 dark:bg-blue-700 dark:text-white' 
                 : 'text-gray-700 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-gray-700'}"
           >
             {formatChapterTitle(chapter.title)}
