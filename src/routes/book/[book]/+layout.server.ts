@@ -3,6 +3,10 @@ import type { LayoutServerLoad } from './$types';
 export const load: LayoutServerLoad = async ({ params }) => {
   const book = params.book;
   console.log('[DEBUG] Book param:', book);
+  // Test glob for all files in content/books
+  const allFiles = import.meta.glob('/src/content/books/**/*', { query: '?raw', import: 'default' });
+  console.log('[DEBUG] ALL FILES in /src/content/books:', Object.keys(allFiles));
+
   // Use Vite's import.meta.glob to get all chapters and frontmatter, then filter by book
   const allChapterFiles = import.meta.glob('/src/content/books/*/chapters/*.mdx', { query: '?raw', import: 'default' });
   const allFrontmatterFiles = import.meta.glob('/src/content/books/*/frontmatter/*.mdx', { query: '?raw', import: 'default' });
